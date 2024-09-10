@@ -22,3 +22,4 @@ while True:
 
 print(f"La edad promedio de las mujeres es: {edad_mujeres / 2}")
 print(f"La edad promedio de los hombres es: {edad_hombres / 2}")
+s
