@@ -26,8 +26,6 @@ iva = total_con_descuento * 0.19
 
 total_final = total_con_descuento + iva
 
-
-
 print("El total antes de IVA es:", total_con_descuento)
 print("El IVA es:", iva)
 print("El total a pagar es:", total_final)
