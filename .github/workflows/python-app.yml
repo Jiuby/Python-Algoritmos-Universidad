@@ -1,21 +1,25 @@
-name: Python App Compilation Check
+name: Python Compile Check
 
 on: [push, pull_request]
 
 jobs:
-  compile:
+  build:
     runs-on: ubuntu-latest
-
+    
     steps:
-    - name: Checkout repository
+    - name: Checkout code
       uses: actions/checkout@v3
-
+      
     - name: Set up Python
-      uses: actions/setup-python@v3
+      uses: actions/setup-python@v4
       with:
-        python-version: '3.9'
+        python-version: '3.9' 
 
-
-    - name: Verify Python files compilation
+    - name: Install dependencies
       run: |
-        find . -name "*.py" -type f -exec python -m py_compile {} \;
+        python -m pip install --upgrade pip
+        pip install -r requirements.txt || true  # Instala las dependencias, si las hay, pero no falla si no hay requirements.txt
+
+    - name: Verify Python files compile
+      run: |
+        find . -name "*.py" -exec python -m py_compile {} \;
