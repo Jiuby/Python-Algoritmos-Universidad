@@ -1,4 +1,4 @@
-name: Python Compile Check
+name: Python Compile and Runtime Check
 
 on: [push, pull_request]
 
@@ -9,17 +9,21 @@ jobs:
     steps:
     - name: Checkout code
       uses: actions/checkout@v3
-      
+
     - name: Set up Python
       uses: actions/setup-python@v4
       with:
-        python-version: '3.9' 
+        python-version: '3.9'  
 
     - name: Install dependencies
       run: |
         python -m pip install --upgrade pip
         pip install -r requirements.txt || true  # Instala las dependencias, si las hay, pero no falla si no hay requirements.txt
 
-    - name: Verify Python files compile
+    - name: Verify Python files compile and run
       run: |
-        find . -name "*.py" -exec python -m py_compile {} \;
+        find . -name "*.py" -exec python -m py_compile {} \; || exit 1  # Verifica que los archivos compilen
+        for file in $(find . -name "*.py"); do
+          echo "Running $file"
+          python $file || exit 1  # Ejecuta cada archivo Python y reporta si hay errores
+        done
